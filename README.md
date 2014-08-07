@@ -1,4 +1,4 @@
-# The Great Pretender
+# Great Pretender
 
 **Ridiculously easy-to-use Rails mockups for those enlightened individuals who design in-browser.**
 

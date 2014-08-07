@@ -62,7 +62,6 @@ module GreatPretender
           @view_paths.each do |view_path|
             layout_path = view_path.join('layouts')
             layout_path = layout_path.join("#{layout}.*#{extensions}")
-            puts "\n\n\n" + layout_path.inspect + "\n\n\n"
             return layout if Dir[layout_path].any?
           end
         end
