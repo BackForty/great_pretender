@@ -20,7 +20,7 @@ Just add it to your Gemfile and go!
 
 1. Add it to your `Gemfile`
 
-	```
+	```ruby
 	group :development do
 	  gem 'great_pretender'
 	end
@@ -39,7 +39,7 @@ You can override two things in Great Pretender:
 
 You can add `config/initializers/great_pretender.rb` and configure it to your liking:
 
-```
+```ruby
 if defined? GreatPretender
   GreatPretender.config do |c|
     c.default_layout = "public_facing"
@@ -54,7 +54,7 @@ end
 
 If you're just using Great Pretender to pass mockups from designer to developer, you can get started really easily by adding it to  `config/routes.rb`:
 
-```
+```ruby
 Rails.application.routes.draw do
   mount GreatPretender::Engine, at: 'mockups' if defined?(GreatPretender)
 end
@@ -70,7 +70,7 @@ If that's the case, you can create your own controller that uses Great Pretender
 
 1. Create a controller that uses whatever inheritance you're interested in, and mix `GreatPretender::Controller` into it:
 
-	```
+	```ruby
 	class Admin::MockupsController < Admin::ApplicationController
 
 	  include GreatPretender::Controller
@@ -84,7 +84,7 @@ If that's the case, you can create your own controller that uses Great Pretender
 
 2. Manually add routes to the Great Pretender actions (`index` and `show`). **Please note** that the `show` action requires a `*splat`-style id:
 
-	```
+	```ruby
 	Rails.application.routes.draw do
 	  namespace :admin do
 	    # ... your other stuff ...
@@ -100,7 +100,7 @@ If that's the case, you can create your own controller that uses Great Pretender
 
 	Here's an example:
 
-	```
+	```haml
 	%ul
 	  - mockups.each do |mockup|
 	    %li= link_to mockup.name, admin_mockup_path(mockup)
@@ -116,7 +116,7 @@ Once you've got Great Pretender up and running, you should add some mockups. By 
 
 	For example, in `app/views/mockups/users/show.html.slim`:
 
-		```
+		```slim
 		header= image_tag "logo.png"
 		p
 		  | I can use regular Rails helpers because this is just a template file!
