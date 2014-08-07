@@ -116,12 +116,12 @@ Once you've got Great Pretender up and running, you should add some mockups. By 
 
 	For example, in `app/views/mockups/users/show.html.slim`:
 
-		```
-		header= image_tag "logo.png"
-		p
-		  | I can use regular Rails helpers because this is just a template file!
-		  ' Hooray!
-		```
+        ```
+        header= image_tag "logo.png"
+        p
+          | I can use regular Rails helpers because this is just a template file!
+          ' Hooray!
+        ```
 
 2. Open your browser and navigate to whatever path you installed Great Pretender on (90% of cases I'm guessing will be in `http://localhost:3000/mockups`). Then click on your mockup.
 
