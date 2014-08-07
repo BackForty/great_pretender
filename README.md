@@ -100,7 +100,7 @@ If that's the case, you can create your own controller that uses Great Pretender
 
 	Here's an example:
 
-	```haml
+	```
 	%ul
 	  - mockups.each do |mockup|
 	    %li= link_to mockup.name, admin_mockup_path(mockup)
@@ -116,7 +116,7 @@ Once you've got Great Pretender up and running, you should add some mockups. By 
 
 	For example, in `app/views/mockups/users/show.html.slim`:
 
-		```slim
+		```
 		header= image_tag "logo.png"
 		p
 		  | I can use regular Rails helpers because this is just a template file!
