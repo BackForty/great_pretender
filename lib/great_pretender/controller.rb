@@ -5,7 +5,6 @@ module GreatPretender
   module Controller
 
     def self.included(base)
-      base.helper_method :mockup
       base.helper_method :mockups
       base.helper_method :mockup_root
       base.helper GreatPretender::MockupsHelper

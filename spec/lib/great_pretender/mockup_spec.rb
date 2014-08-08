@@ -8,9 +8,16 @@ describe GreatPretender::Mockup do
   include MockupHelpers
 
   let(:mockup) { mockup_locator.mockups.find {|m| m.slug =~ /admin/ } }
+  let(:partial) { mockup_locator.mockups.find {|m| m.slug =~ /^_/ } }
 
-  it "returns a human-readable name from its slug" do
-    expect(mockup.name).to eq("Admin > Index")
+  context ".name" do
+    it "returns a human-readable name from its slug" do
+      expect(mockup.name).to eq("Admin > Index")
+    end
+
+    it "marks a partial as such" do
+      expect(partial.name).to eq("Partial (partial)")
+    end
   end
 
   context ".to_param" do

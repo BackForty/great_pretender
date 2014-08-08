@@ -18,7 +18,7 @@ module GreatPretender
       if slug =~ /^_/
         name << ' (partial)'
       end
-      @name = name
+      @name = name.strip
     end
 
     def updated_at
