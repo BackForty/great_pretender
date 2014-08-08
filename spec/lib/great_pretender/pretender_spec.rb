@@ -5,11 +5,19 @@ class PrefixSlugPretender
   def say_hello
     "Hello, guest!"
   end
+
+  def name
+    "Flip"
+  end
 end
 
 class TestSlugPretender
   def ohai
     "ohai"
+  end
+
+  def name
+    "Avery"
   end
 end
 
@@ -30,4 +38,7 @@ describe GreatPretender::Pretender do
     expect(recipient.say_hello).to eq("Hello, guest!")
   end
 
+  it "delegates methods to the most specific responder" do
+    expect(recipient.name).to eq("Avery")
+  end
 end
