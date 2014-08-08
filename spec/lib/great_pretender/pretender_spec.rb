@@ -18,7 +18,6 @@ class TestSlugsPretender
 
   def initialize(mockup)
     @mockup = mockup
-    puts "Received mockup: #{mockup.inspect}"
   end
 
   def ohai
