@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/BackForty/great_pretender/badges/gpa.svg)](https://codeclimate.com/github/BackForty/great_pretender) [![Test Coverage](https://codeclimate.com/github/BackForty/great_pretender/badges/coverage.svg)](https://codeclimate.com/github/BackForty/great_pretender)
+
 # Great Pretender
 
 **Ridiculously easy-to-use Rails mockups for those enlightened individuals who design in-browser.**

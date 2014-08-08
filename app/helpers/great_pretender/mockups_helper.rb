@@ -18,6 +18,7 @@ module GreatPretender
         end
       end
     end
+
   end
 
   class MissingPathHelperError < StandardError
@@ -26,4 +27,5 @@ module GreatPretender
       @original_error = error
     end
   end
+
 end

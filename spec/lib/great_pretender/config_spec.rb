@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 module GreatPretender; end
 
 describe GreatPretender do

@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 require 'great_pretender/mockup_locator'
 require 'pathname'
 require_relative '../../support/mockup_helpers'

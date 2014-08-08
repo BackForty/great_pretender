@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 require 'great_pretender/pretender'
 require 'ostruct'
 
@@ -41,4 +43,5 @@ describe GreatPretender::Pretender do
   it "delegates methods to the most specific responder" do
     expect(recipient.name).to eq("Avery")
   end
+
 end

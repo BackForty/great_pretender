@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 require 'great_pretender/mockup'
 require_relative '../../support/mockup_helpers'
 
