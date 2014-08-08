@@ -47,9 +47,10 @@ module GreatPretender
       @mockup.slug.split("/").each do |pretender_name|
         # Given a mockup named something like 'social_contents',
         # support pretenders named 'SocialContentsPretender' AND 'SocialContentPretender'
-        first_class = pretender_name.classify
-        second_class = pretender_name.split("_").map(&:titleize).join
-        [first_class, second_class].uniq.each do |class_name|
+        singular_class = pretender_name.classify
+        plural_class = singular_class.pluralize
+
+        [singular_class, plural_class].each do |class_name|
           if instance = load_pretender(class_name)
             pretenders.push(instance)
           end

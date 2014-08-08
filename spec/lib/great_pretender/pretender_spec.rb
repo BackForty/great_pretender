@@ -13,7 +13,14 @@ class PrefixSlugPretender
   end
 end
 
-class TestSlugPretender
+class TestSlugsPretender
+  attr_reader :mockup
+
+  def initialize(mockup)
+    @mockup = mockup
+    puts "Received mockup: #{mockup.inspect}"
+  end
+
   def ohai
     "ohai"
   end
@@ -44,4 +51,17 @@ describe GreatPretender::Pretender do
     expect(recipient.name).to eq("Avery")
   end
 
+  it "passes the mockup to pretenders that accept an initialization argument" do
+    expect(TestSlugsPretender).to receive(:new).with(mockup)
+    recipient
+  end
+
+  it "correctly calls super when a method doesn't exist" do
+    expect(-> { recipient.foobar }).to raise_error(NoMethodError)
+  end
+
+  it "quietly flunks mockups without pretenders" do
+    pretenderless_mockup = OpenStruct.new(slug: "no_pretender_mockup")
+    expect(-> { GreatPretender::Pretender.new(pretenderless_mockup) } ).not_to raise_error
+  end
 end

@@ -5,5 +5,6 @@ gemspec
 
 group :test do
   gem "rspec-rails"
-  gem "codeclimate-test-reporter", require: nil
+  gem "codeclimate-test-reporter", require: false
+  gem "simplecov", require: false
 end
