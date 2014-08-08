@@ -14,15 +14,7 @@ module GreatPretender
       return @mockups if defined? @mockups
       mockups = []
       @view_paths.each do |view_path|
-        root = view_path.join(GreatPretender.config.view_path)
-        templates = Dir[root.join("**/*.#{extensions}")]
-        templates.each do |path|
-          mockup = Mockup.new(path)
-          mockup.slug = slug_for(root, path)
-          mockup.layout = layout_for(mockup.slug)
-          mockup.template = template_for(view_path, root, mockup.slug)
-          mockups.push(mockup)
-        end
+        mockups.push(*mockups_for(view_path))
       end
       @mockups = mockups
     end
@@ -66,6 +58,22 @@ module GreatPretender
           end
         end
         GreatPretender.config.default_layout
+      end
+    end
+
+    def mockup_for(view_path, root, path)
+      mockup = Mockup.new(path)
+      mockup.slug = slug_for(root, path)
+      mockup.layout = layout_for(mockup.slug)
+      mockup.template = template_for(view_path, root, mockup.slug)
+      mockup
+    end
+
+    def mockups_for(view_path)
+      root = view_path.join(GreatPretender.config.view_path)
+      templates = Dir[root.join("**/*.#{extensions}")]
+      templates.map do |path|
+        mockup_for(view_path, root, path)
       end
     end
 
