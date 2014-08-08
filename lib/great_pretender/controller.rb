@@ -48,7 +48,7 @@ module GreatPretender
 
     def view_context
       super.tap do |view_context|
-        view_context.extend pretender.to_module
+        view_context.extend pretender.to_module if mockup
       end
     end
 
