@@ -101,7 +101,7 @@ If that's the case, you can create your own controller that uses Great Pretender
 
 	Here's an example:
 
-	```
+	```haml
 	%ul
 	  - mockups.each do |mockup|
 	    %li= link_to mockup.name, admin_mockup_path(mockup)
@@ -115,14 +115,14 @@ Once you've got Great Pretender up and running, you should add some mockups. By 
 
 	For example, in `app/views/mockups/users/show.html.slim`:
 
-	```
+	```slim
 	header= image_tag "logo.png"
 	p
 	  | I can use regular Rails helpers because this is just a template file!
 	  ' Hooray!
 	```
 
-2. Open your browser and navigate to whatever path you installed Great Pretender on (90% of cases I'm guessing will be in `http://localhost:3000/mockups`). Then click on your mockup.
+2. Open your browser and navigate to whatever path you installed Great Pretender on (90% of cases I'm guessing will be at [http://localhost:3000/mockups](http://localhost:3000/mockups)). Then click on your mockup.
 
 3. Profit
 
@@ -159,7 +159,7 @@ Using this strategy, you can name your mockups clearly after their conceptual se
 
 A lot of the time you'll want to emulate real data in your views. In those cases, Great Pretender supports the use of "Pretender" objects in `app/pretenders`.
 
-Pretender objects can be any class. They can accept a single argument in `initialize`, which will be the the mockup being rendered, **or** they can skip it entirelys.
+Pretender objects can be any class. They can accept a single argument in `initialize`, which will be the the mockup being rendered, **or** they can skip it entirely.
 
 Any public method you add to a pretender object will be available to the view, just like helper methods.
 
