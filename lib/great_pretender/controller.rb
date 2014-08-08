@@ -1,4 +1,5 @@
 require "great_pretender/mockup_locator"
+require "great_pretender/pretender"
 
 module GreatPretender
   module Controller
@@ -39,6 +40,16 @@ module GreatPretender
 
     def mockup_root
       @great_pretender_mockup_root ||= mockup_locator.view_paths.first.join(GreatPretender.config.view_path)
+    end
+
+    def pretender
+      @great_pretender_pretender ||= Pretender.new(mockup)
+    end
+
+    def view_context
+      super.tap do |view_context|
+        view_context.extend pretender.to_module
+      end
     end
 
   end

@@ -6,6 +6,7 @@
 
 **Great Pretender** was designed to be easy and awesome. Here are a few of its neat features:
 
+- Allows for easy stubbing with test data
 - Supports multiple layouts
 - Supports nested mockup directories (e.g. `app/views/mockups/users/sessions/whatever.html.slim`)
 - Supports partials
@@ -106,9 +107,7 @@ If that's the case, you can create your own controller that uses Great Pretender
 	    %li= link_to mockup.name, admin_mockup_path(mockup)
 	```
 
-## Usage
-
-### Creating mockups
+## Creating Mockups
 
 Once you've got Great Pretender up and running, you should add some mockups. By default, you would put these in `app/views/mockups`, but if you overrode `view_path` in `GreatPretender.config.view_path`, you would use `app/views/whatever_you_overrode_it_to`.
 
@@ -127,7 +126,7 @@ Once you've got Great Pretender up and running, you should add some mockups. By 
 
 3. Profit
 
-### Creating partials
+### Partials
 
 You can add partials like you would anywhere else. Just prefix them with a skid (`_`) and go from there.
 
@@ -135,7 +134,7 @@ By default, partials render **without a layout**, so you can request them using 
 
 If you *want* to receive a layout as part of it, use a custom layout (see next section) and just request that mockups' path.
 
-### Using alternative layouts
+### Multiple layout support
 
 If you're designing for a site with multiple layouts, you can simply nest mockup files in a folder with the name of a layout, and they'll be rendered with that layout. For example, with the following structure...
 
@@ -155,6 +154,54 @@ app/
 ...all of the mockups in `app/views/mockups/admin` would render using the `admin` layout.
 
 Using this strategy, you can name your mockups clearly after their conceptual section in your app.
+
+## Rendering With Test Data (Pretender Objects)
+
+A lot of the time you'll want to emulate real data in your views. In those cases, Great Pretender supports the use of "Pretender" objects in `app/pretenders`.
+
+Pretender objects can be any class. They can accept a single argument in `initialize`, which will be the the mockup being rendered, **or** they can skip it entirelys.
+
+Any public method you add to a pretender object will be available to the view, just like helper methods.
+
+### Load order
+
+Pretenders, like layouts, are loaded based on the name of your mockup file. For example, a mockup named "users/login" would look for `app/pretenders/user(s)_pretender.rb` and `app/pretenders/login_pretender.rb`. **Please note** that plurally named templates will support a singular pretender, but singularly named templates will only load singular pretenders.
+
+Pretenders are delegated to in order of most specific (`LoginPretender`) to least specific (`UserPretender`). So if `LoginPretender` and `UserPretender` both define method `name`, the `LoginPretender`'s implementation will be used.
+
+### Example
+
+Here's an example using the excellent [Faker gem](https://github.com/stympy/faker) (I leave it to you to figure out how you want to generate test data, but Faker is pretty awesome).
+
+#### `app/pretenders/user_pretender.rb`
+
+```ruby
+require "faker"
+
+class UserPretender
+
+  def login
+    Faker::Internet.user_name
+  end
+
+  def email
+    Faker::Internet.email
+  end
+
+end
+```
+
+#### `app/views/mockups/users/login.html.slim`
+
+
+```slim
+header
+  | Welome back, #{login}!
+  | Your email is set to #{email}
+
+  / The remainder of your login form mockup...
+```
+
 
 ## The end!
 
