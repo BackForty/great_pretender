@@ -2,3 +2,4 @@ en:
   great_pretender:
     missing_helper_methods: "Great Pretender couldn't find a path helper to a mockup from %s. I tried '%s' to no avail. Have you named your mockup routes?"
     not_found: "No mockup found at %s"
+    deprecated_pretender: "DEPRECATION WARNING: Using Pretender methods (`%s') directly is deprectated. Use `%s.%s' instead."

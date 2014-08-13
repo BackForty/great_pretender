@@ -1,7 +1,18 @@
 require 'spec_helper'
 
 require 'great_pretender/pretender'
+require 'i18n'
 require 'ostruct'
+
+module Rails
+  def self.logger
+    @logger ||= Class.new do
+      def debug(msg)
+        puts msg
+      end
+    end.new
+  end
+end
 
 class PrefixSlugPretender
   def say_hello
@@ -29,6 +40,10 @@ class TestSlugsPretender
   end
 end
 
+
+I18n.load_path = Dir['config/locales/*.yml']
+I18n.enforce_available_locales = false
+
 describe GreatPretender::Pretender do
 
   let(:mockup) { OpenStruct.new(slug: "prefix_slug/test_slug") }
@@ -38,15 +53,25 @@ describe GreatPretender::Pretender do
     Class.new { include mod }.new
   end
 
-  it "delegates methods to pretenders named after mockups" do
+  let(:deprecation_warning) { }
+
+  before do |example, options|
+    if example.metadata[:deprecations]
+      deprecation_warning = I18n.t('great_pretender.deprecated_pretender')
+      deprecation_warning = deprecation_warning % example.metadata[:deprecations]
+      expect(Rails.logger).to receive(:debug).with(deprecation_warning)
+    end
+  end
+
+  it "delegates methods to pretenders named after mockups", deprecations: %w(ohai test_slugs ohai) do
     expect(recipient.ohai).to eq("ohai")
   end
 
-  it "delegates methods to pretenders in the slug chain" do
+  it "delegates methods to pretenders in the slug chain", deprecations: %w(say_hello prefix_slug say_hello) do
     expect(recipient.say_hello).to eq("Hello, guest!")
   end
 
-  it "delegates methods to the most specific responder" do
+  it "delegates methods to the most specific responder", deprecations: %w(name test_slugs name) do
     expect(recipient.name).to eq("Avery")
   end
 
@@ -63,4 +88,5 @@ describe GreatPretender::Pretender do
     pretenderless_mockup = OpenStruct.new(slug: "no_pretender_mockup")
     expect(-> { GreatPretender::Pretender.new(pretenderless_mockup) } ).not_to raise_error
   end
+
 end

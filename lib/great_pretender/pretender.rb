@@ -15,6 +15,11 @@ module GreatPretender
           pretender = pretenders.find { |p| p.respond_to?(method_name) }
 
           if pretender
+            if defined? Rails
+              deprecation_warning = I18n.t('great_pretender.deprecated_pretender')
+              deprecation_warning_args = [method_name, pretender.class.name.underscore.gsub(/_pretender$/, ''), method_name]
+              Rails.logger.debug deprecation_warning % deprecation_warning_args
+            end
             pretender.send(method_name, *args, &block)
           else
             super(method_name, *args, &block)
