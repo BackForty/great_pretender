@@ -11,7 +11,7 @@ module GreatPretender
     end
 
     def index
-      render template: 'great_pretender/index'
+      render template: 'great_pretender/index', layout: GreatPretender.config.default_layout
     end
 
     def show
