@@ -1,7 +1,14 @@
 module GreatPretender
 
   class Config
+
     attr_accessor :default_layout, :path_separator, :view_path
+    attr_writer :base_controller
+
+    def base_controller
+      @base_controller ||= ::ApplicationController
+    end
+
   end
 
   def self.config
