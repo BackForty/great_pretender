@@ -49,7 +49,9 @@ module GreatPretender
         # Mockups can have a layout by being in a folder named after that
         # layout; for example, "app/views/mockups/admin/index" will look for an
         # "admin" template
-        layout = slug.split('/').first
+        layout = slug.split('/')
+        layout.pop
+        layout = layout.join('/')
         if layout && layout.length > 0
           @view_paths.each do |view_path|
             layout_path = view_path.join('layouts')
@@ -63,6 +65,7 @@ module GreatPretender
 
     def mockup_for(view_path, root, path)
       mockup = Mockup.new(path)
+      mockup.path = path
       mockup.slug = slug_for(root, path)
       mockup.layout = layout_for(mockup.slug)
       mockup.template = template_for(view_path, root, mockup.slug)

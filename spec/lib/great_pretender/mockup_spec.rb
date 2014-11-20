@@ -28,7 +28,8 @@ describe GreatPretender::Mockup do
 
   context ".updated_at" do
     it "returns the template file's mtime for its slug" do
-      expect(mockup.updated_at).to eq(Time.at(1407427839))
+      `touch #{mockup.path}`
+      expect(mockup.updated_at.to_i).to eq(Time.now.to_i)
     end
   end
 

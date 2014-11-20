@@ -19,10 +19,11 @@ describe GreatPretender::MockupLocator do
   let(:regular_mockup) { mockup_locator.mockups.find {|m| m.slug =~ /^processed/ } }
   let(:partial_mockup) { mockup_locator.mockups.find {|m| m.slug =~ /^_/ } }
   let(:admin_mockup) { mockup_locator.mockups.find {|m| m.slug =~ /admin/ } }
+  let(:nested_admin_mockup) { mockup_locator.mockups.find {|m| m.slug =~ /admin\/base/ } }
 
   context "::mockups" do
     it "returns all mockups in the pre-configured mockup directories" do
-      expect(mockup_locator.mockups.size).to eq(5)
+      expect(mockup_locator.mockups.size).to eq(6)
     end
 
     it "returns mockups with Rails-friendly template names" do
@@ -39,6 +40,10 @@ describe GreatPretender::MockupLocator do
 
     it "returns detected layouts for well-named mockups" do
       expect(admin_mockup.layout).to eq("admin")
+    end
+
+    it "returns layouts in sub-folders, too" do
+      expect(nested_admin_mockup.layout).to eq("admin/base")
     end
   end
 

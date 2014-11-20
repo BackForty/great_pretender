@@ -4,7 +4,7 @@ require "great_pretender/config"
 module GreatPretender
   class Mockup
 
-    attr_accessor :layout, :slug, :template
+    attr_accessor :layout, :path, :slug, :template
 
     alias :to_param :slug
 
