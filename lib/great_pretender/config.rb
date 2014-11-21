@@ -3,10 +3,14 @@ module GreatPretender
   class Config
 
     attr_accessor :default_layout, :path_separator, :view_path
-    attr_writer :base_controller
 
     def base_controller
-      @base_controller ||= ::ApplicationController
+      @base_controller ||= "::ApplicationController"
+      @base_controller.constantize
+    end
+
+    def base_controller=(new_base_controller)
+      @base_controller = new_base_controller.to_s
     end
 
   end
