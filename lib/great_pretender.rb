@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "great_pretender/config"
 require "great_pretender/controller"
 require "great_pretender/version"

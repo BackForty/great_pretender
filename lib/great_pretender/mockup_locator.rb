@@ -1,13 +1,14 @@
+# frozen_string_literal: true
+
 require "great_pretender/config"
 require "great_pretender/mockup"
 
 module GreatPretender
   class MockupLocator
-
     attr_reader :view_paths
 
     def find(slug)
-      mockups.find {|mockup| mockup.slug == slug}
+      mockups.find { |mockup| mockup.slug == slug }
     end
 
     def mockups
@@ -36,12 +37,12 @@ module GreatPretender
     def extensions
       return @extensions if defined? @extensions
       extensions = ActionView::Template.template_handler_extensions
-      extensions = extensions.map(&:to_s).join(',')
+      extensions = extensions.map(&:to_s).join(",")
       @extensions = "{#{extensions}}"
     end
 
     def layout_for(slug)
-      if File.basename(slug) =~ /^_/
+      if /^_/.match?(File.basename(slug))
         # Partials (named like "_template_name") don't render inside a layout.
         # This way they can be used w/Ajax requests, etc.
         nil
@@ -49,12 +50,12 @@ module GreatPretender
         # Mockups can have a layout by being in a folder named after that
         # layout; for example, "app/views/mockups/admin/index" will look for an
         # "admin" template
-        layout = slug.split('/')
+        layout = slug.split("/")
         layout.pop
-        layout = layout.join('/')
+        layout = layout.join("/")
         if layout && layout.length > 0
           @view_paths.each do |view_path|
-            layout_path = view_path.join('layouts')
+            layout_path = view_path.join("layouts")
             layout_path = layout_path.join("#{layout}.*#{extensions}")
             return layout if Dir[layout_path].any?
           end
@@ -64,9 +65,12 @@ module GreatPretender
     end
 
     def mockup_for(view_path, root, path)
+      slug = slug_for(root, path)
+      return if slug == "index" # Don't render an index wireframe at the root of our wireframes folder
+
       mockup = Mockup.new(path)
       mockup.path = path
-      mockup.slug = slug_for(root, path)
+      mockup.slug = slug
       mockup.layout = layout_for(mockup.slug)
       mockup.template = template_for(view_path, root, mockup.slug)
       mockup
@@ -75,15 +79,15 @@ module GreatPretender
     def mockups_for(view_path)
       root = view_path.join(GreatPretender.config.view_path)
       templates = Dir[root.join("**/*.#{extensions}")]
-      templates.map do |path|
+      templates.filter_map do |path|
         mockup_for(view_path, root, path)
       end
     end
 
     def slug_for(root, path)
-      slug = path.to_s.gsub(%r{^#{root.to_s}/}, '')
+      slug = path.to_s.gsub(%r{^#{root}/}, "")
       while (ext = File.extname(slug)).length > 0
-        slug = slug.gsub(/#{ext}$/, '')
+        slug = slug.gsub(/#{ext}$/, "")
       end
       slug
     end
@@ -92,6 +96,5 @@ module GreatPretender
       template_root = root.relative_path_from(view_path)
       template_root.join(slug).to_s
     end
-
   end
 end

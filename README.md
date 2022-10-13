@@ -15,7 +15,6 @@
 - Installs in 2 minutes as a Rails engine
 - Can be mixed in to other controllers for access control or whatever else you want to add
 - Configurable mockups folder name and default layout
-- Dances with wolves
 
 ## Install
 
@@ -75,13 +74,10 @@ If that's the case, you can create your own controller that uses Great Pretender
 
 	```ruby
 	class Admin::MockupsController < Admin::ApplicationController
-
 	  include GreatPretender::Controller
 
 	  before_action :require_admin_user! # or whatever
-
 	  layout 'admin' # or whatever
-
 	end
 	```
 
@@ -163,13 +159,23 @@ A lot of the time you'll want to emulate real data in your views. In those cases
 
 Pretender objects can be any class. They can accept a single argument in `initialize`, which will be the the mockup being rendered, **or** they can skip it entirely.
 
-Any public method you add to a pretender object will be available to the view, just like helper methods.
+An instance of every pretender will be available inside your templates. So for, e.g., a `user_pretender.rb` that defines:
 
-### Load order
+```
+class UserPretender
+	def name
+		"Gary Sinese"
+	end
+end
+```
 
-Pretenders, like layouts, are loaded based on the name of your mockup file. For example, a mockup named "users/login" would look for `app/pretenders/user(s)_pretender.rb` and `app/pretenders/login_pretender.rb`. **Please note** that plurally named templates will support a singular pretender, but singularly named templates will only load singular pretenders.
+You would reference a `user` helper method (or `user_pretender` if `user` is already defined):
 
-Pretenders are delegated to in order of most specific (`LoginPretender`) to least specific (`UserPretender`). So if `LoginPretender` and `UserPretender` both define method `name`, the `LoginPretender`'s implementation will be used.
+```erb
+<%= user.name %> <!-- Outputs "Gary Sinese" -->
+or
+<%= user_pretender.name %> <!-- Outputs same -->
+```
 
 ### Example
 
@@ -181,7 +187,6 @@ Here's an example using the excellent [Faker gem](https://github.com/stympy/fake
 require "faker"
 
 class UserPretender
-
   def login
     Faker::Internet.user_name
   end
@@ -189,7 +194,6 @@ class UserPretender
   def email
     Faker::Internet.email
   end
-
 end
 ```
 
@@ -198,12 +202,11 @@ end
 
 ```slim
 header
-  | Welome back, #{login}!
-  | Your email is set to #{email}
+  | Welome back, #{user.login}!
+  | Your email is set to #{user.email}
 
   / The remainder of your login form mockup...
 ```
-
 
 ## The end!
 

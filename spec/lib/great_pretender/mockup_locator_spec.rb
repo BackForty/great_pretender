@@ -1,25 +1,26 @@
-require 'spec_helper'
+# frozen_string_literal: true
 
-require 'great_pretender/mockup_locator'
-require 'pathname'
-require_relative '../../support/mockup_helpers'
+require "spec_helper"
+
+require "great_pretender/mockup_locator"
+require "pathname"
+require_relative "../../support/mockup_helpers"
 
 module ActionView
   module Template
     def self.template_handler_extensions
-      %w(erb slim haml)
+      %w[erb slim haml]
     end
   end
 end
 
 describe GreatPretender::MockupLocator do
-
   include MockupHelpers
 
-  let(:regular_mockup) { mockup_locator.mockups.find {|m| m.slug =~ /^processed/ } }
-  let(:partial_mockup) { mockup_locator.mockups.find {|m| m.slug =~ /^_/ } }
-  let(:admin_mockup) { mockup_locator.mockups.find {|m| m.slug =~ /admin/ } }
-  let(:nested_admin_mockup) { mockup_locator.mockups.find {|m| m.slug =~ /admin\/base/ } }
+  let(:regular_mockup) { mockup_locator.mockups.find { |m| m.slug =~ /^processed/ } }
+  let(:partial_mockup) { mockup_locator.mockups.find { |m| m.slug =~ /^_/ } }
+  let(:admin_mockup) { mockup_locator.mockups.find { |m| m.slug.include?("admin") } }
+  let(:nested_admin_mockup) { mockup_locator.mockups.find { |m| m.slug.include?("admin/base") } }
 
   context "::mockups" do
     it "returns all mockups in the pre-configured mockup directories" do

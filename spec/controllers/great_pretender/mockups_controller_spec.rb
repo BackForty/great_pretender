@@ -1,7 +1,9 @@
-require 'spec_helper'
-#require 'rspec/rails'
-#require 'great_pretender/mockups_controller'
+# frozen_string_literal: true
 
-#describe GreatPretender::MockupsController do
+require "spec_helper"
+# require 'rspec/rails'
+# require 'great_pretender/mockups_controller'
 
-#end
+# describe GreatPretender::MockupsController do
+
+# end

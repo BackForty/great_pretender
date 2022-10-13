@@ -1,16 +1,17 @@
-require 'spec_helper'
+# frozen_string_literal: true
 
-require 'great_pretender/mockup'
-require_relative '../../support/mockup_helpers'
+require "spec_helper"
+
+require "great_pretender/mockup"
+require_relative "../../support/mockup_helpers"
 
 describe GreatPretender::Mockup do
-
   include MockupHelpers
 
-  let(:mockup) { mockup_locator.mockups.find {|m| m.slug =~ /admin/ } }
-  let(:partial) { mockup_locator.mockups.find {|m| m.slug =~ /^_/ } }
+  let(:mockup) { mockup_locator.mockups.find { |m| m.slug.include?("admin") } }
+  let(:partial) { mockup_locator.mockups.find { |m| m.slug =~ /^_/ } }
 
-  context ".name" do
+  describe ".name" do
     it "returns a human-readable name from its slug" do
       expect(mockup.name).to eq("Admin > Index")
     end
@@ -20,17 +21,16 @@ describe GreatPretender::Mockup do
     end
   end
 
-  context ".to_param" do
+  describe ".to_param" do
     it "returns the slug" do
       expect(mockup.to_param).to eq(mockup.slug)
     end
   end
 
-  context ".updated_at" do
+  describe ".updated_at" do
     it "returns the template file's mtime for its slug" do
       `touch #{mockup.path}`
       expect(mockup.updated_at.to_i).to eq(Time.now.to_i)
     end
   end
-
 end
